@@ -1,0 +1,5 @@
+-Create, export a valid conda environment.
+-Create, import that previous environment for everybody
+-Rewrite doc
+-Elaborate UML charts for new version with thread support
+-Refactor .java files (anaconda environment path is reall needed??)
