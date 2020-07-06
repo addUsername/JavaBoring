@@ -79,7 +79,7 @@ public class Model {
 					line = 0;
 					sc = new Scanner(file);
 					add = "\n Call ";
-					add += "python.exe " + this.resourcesPath + "pys\\readVideo.py %path% %champions% %threshold% %second_inicial% %frame_step% %frame_stop% %json_path%";
+					add += this.pathPath+"python.exe " + this.resourcesPath + "pys\\readVideo.py %path% %champions% %threshold% %second_inicial% %frame_step% %frame_stop% %json_path%";
 					while(sc.hasNextLine()) {
 						content += sc.nextLine()+"\n";
 						if (line == 15) content += add+"\n";
@@ -96,7 +96,7 @@ public class Model {
 					line = 0;
 					sc = new Scanner(file);
 					add = "\n Call ";
-					add += "python.exe " + this.resourcesPath + "pys\\flatPlot.py %path% %champions% %title%";
+					add += this.pathPath+"python.exe " + this.resourcesPath + "pys\\flatPlot.py %path% %champions% %title%";
 					add += "\n exit";
 					while(sc.hasNextLine()) {
 						content += sc.nextLine()+"\n";
@@ -114,7 +114,7 @@ public class Model {
 					line = 0;
 					sc = new Scanner(file);
 					add = "\n Call ";
-					add += "python.exe " + this.resourcesPath + "pys\\3dPlot.py %path% %champions% %title%";
+					add += this.pathPath+"python.exe "+ this.resourcesPath + "pys\\3dPlot.py %path% %champions% %title%";
 					add += "\n exit";
 					while(sc.hasNextLine()) {
 						content += sc.nextLine()+"\n";
@@ -132,7 +132,7 @@ public class Model {
 					line = 0;
 					sc = new Scanner(file);
 					add = "\n Call ";
-					add += "python.exe " + this.resourcesPath + "pys\\writeVideo.py %rootpath% %videopath% %title%";
+					add += this.pathPath+"python.exe "+ this.resourcesPath + "pys\\writeVideo.py %rootpath% %videopath% %title%";
 					add += "\n exit";
 					while(sc.hasNextLine()) {
 						content += sc.nextLine()+"\n";
@@ -169,7 +169,8 @@ public class Model {
 		
 		try {
 			for (File file: bats.listFiles()) {
-				content = "@PATH=%PATH%;"+this.pathPath+";"+this.pathPath+"Scripts\\;\n";
+				content = "@echo activando entorno virtual\n" + 
+						  "@call "+this.pathPath+"Scripts\\activate " + isBaseEnvironment(file.getName());
 				sc = new Scanner(file);
 				while(sc.hasNextLine()) {
 					content += sc.nextLine()+"\n";
@@ -185,19 +186,26 @@ public class Model {
 		}
 	}
 	/**
-	   * This method should be place in a separate file, prob. as static method bc no params
+	 * This method should be a lambda inside {@link Model#writeConda()}. its return the name of the conda environment to activate
+	 * @param name File's name, we just need (base) environment on create.bat
+	 * @return String
+	*/
+	private String isBaseEnvironment(String name) {
+		
+		return (name.equals("create.bat"))? "\n":"myenv\n";
+	}
+	/**
+	   * This method runs create.bat
 	   * <p>
-	   * A better way to implement this code could be calling the comun processBuilder(String params = null, String nameFile)
-	   * method
+	   *  which create a conda environment from ..\resources\condaEnv\conda-env.txt 
+	   * A better way to implement this code could be calling the comun processBuilder(this.resourcesPath, "create.bat" + params) method
 	   */
 	public void createCondaEnvironment() {
 				
 		
-		try {
+		try {//+" "+this.resourcesPath+"condaEnv\\conda-env.txt"
 			
-			ProcessBuilder processBuilder =	new ProcessBuilder(this.resourcesPath+"Bats\\create.bat");
-			Process process = processBuilder.start();
-			//Process process = Runtime.getRuntime().exec(this.resourcesPath+"Bats\\create.bat");
+			Process process = Runtime.getRuntime().exec(this.resourcesPath+"Bats\\create.bat"+" "+this.resourcesPath+"condaEnv\\conda-env.txt");
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader( process.getInputStream() ));
 
 			String s;
@@ -250,14 +258,9 @@ public class Model {
 	   * @param parameters
 	   */
 	public void flatPlot(String [][] parameters) {
-		
-		String champions = "";
-		for (String champ : parameters[0]) {
-			champions += "#"+champ;
-		}
-		
+				
 		try {				
-			Process process = Runtime.getRuntime().exec(this.resourcesPath+"Bats\\flatPlot.bat "+" "+this.rootPath+" "+champions+" "+parameters[1][0]);
+			Process process = Runtime.getRuntime().exec(this.resourcesPath+"Bats\\flatPlot.bat "+" "+this.rootPath+" "+parameters[0][0]);
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader( process.getInputStream() ));
 
 			String s;
@@ -279,14 +282,9 @@ public class Model {
 	   * @param parameters
 	   */
 	public void threedPlot(String [][] parameters) {
-		
-		String champions = "";
-		for (String champ : parameters[0]) {
-			champions += "#"+champ;
-		}
-		
+				
 		try {				
-			Process process = Runtime.getRuntime().exec(this.resourcesPath+"Bats\\3dPlot.bat "+" "+this.rootPath+" "+champions+" "+parameters[1][0]);
+			Process process = Runtime.getRuntime().exec(this.resourcesPath+"Bats\\3dPlot.bat "+" "+this.rootPath+" "+parameters[0][0]);
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader( process.getInputStream() ));
 	
 			String s;

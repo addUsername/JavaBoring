@@ -76,14 +76,11 @@ public class View {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("++++++++++\n MENU Graficas\n++++++++++");
-		
-		System.out.println("-Introduzca los campeones a seguir separados por comas (,) max=5");		
-		String [] champions = sc.nextLine().split(",");		
 
 		System.out.println("-Introduzca el nombre del archivo nombre.json generado.\n(../prueba/target/json)/ \n(sin extension)");
 		String[] name = {sc.nextLine()};
 		
-		String[][] toReturn = {champions, name};
+		String[][] toReturn = {name};
 		return toReturn;
 	}
 	

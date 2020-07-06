@@ -27,7 +27,7 @@ class TestprepareBats {
 	 */
 	@Test
 	void prepareBatsTest1() {
-		String pathPath = "";
+		String pathPath = "C:\\Users\\Sergi\\Anaconda3\\";
 		Model model = new Model();
 		File dir = new File (".");
 		String rootPath = dir.getAbsolutePath().split("prueba")[0] + "prueba\\";

@@ -14,11 +14,10 @@ from mpl_toolkits.mplot3d import Axes3D
 
 class Plotting3D:
 
-    def __init__(self, rootPath, champions, title):
+    def __init__(self, rootPath, title):
 
         self.rootPath = rootPath
         self.title = title
-        self.champions = champions
         self.champions_dict = {}
         self.jsonPath = self.rootPath + "target/json/"
         self.readJson()
@@ -26,6 +25,7 @@ class Plotting3D:
     def readJson(self):
         with open(self.jsonPath + self.title+".json", "r") as file:
             self.champions_dict = load(file)
+            self.champions = [name for name in self.champions_dict.keys() if "0" not in name]
 
     def generate3Dplot(self, colors):
         # es una pena que "no" se puedan guardar las animaciones de plt :(
@@ -69,19 +69,16 @@ if __name__ == "__main__":
     
     print("hello from python", flush=True)
     rootPath = str(sys.argv[1])
-    champis = sys.argv[2].split("#")
-    champions = [champ for champ in champis if champ != ""]
-    title = str(sys.argv[3])
+    title = str(sys.argv[2])
     colors = ["blue", "red", "green", "yellow", "black"]
     
 # =============================================================================
-#     rootPath = "put your root path here"
-#     champions = ["amumu","caitlyn","darius","fizz","morgana"]
+#     rootPath = "C:/Users/SERGI/eclipse-workspace/prueba/"
 #     title = "threshold-0.33_Si-100"
 #     colors = ["blue", "red", "green", "yellow", "black"]
 # =============================================================================
     
-    plotting = Plotting3D(rootPath, champions, title)
+    plotting = Plotting3D(rootPath, title)
     plotting.generate3Dplot(colors)
     print("finnish", flush=True)
     

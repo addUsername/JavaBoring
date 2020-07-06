@@ -41,7 +41,7 @@ def writeJSON(json_path, title, champions_dict):
     with open(json_path + title + ".json", "w") as file:
         dump(champions_dict, file)
 
-def readVideo(champions, path, threshold=0.33, second_inicial=10, frame_step=1, frame_stop=600, json_path = ""):
+def readVideo(champions, path, threshold, second_inicial, frame_step, frame_stop, json_path):
 
     title = "threshold-" + str(threshold) + "_Si-" + str(second_inicial)
     pathJSON = path.split()
@@ -70,10 +70,11 @@ def readVideo(champions, path, threshold=0.33, second_inicial=10, frame_step=1, 
         ret, frame = video_rgb.read()
 
         if ret:
+            if(fram_pos % progress == 0):
+                        print(str(fram_pos*10 / progress), "% leido", flush=True)
             if (fram_pos % frame_step == 0):
                 if (fram_pos < frame_stop):
-                    if(fram_pos % progress == 0):
-                        print(str(fram_pos / progress), " % leido", flush=True)
+                    
 
                     # crop map area
                     frame = frame[h1:h, w1:w]
@@ -98,7 +99,7 @@ def readVideo(champions, path, threshold=0.33, second_inicial=10, frame_step=1, 
                             champions_dict[champions[i]].append(None)
                         i += 1
                     i = 0
-                elif (fram_pos > frame_stop):
+                else:
                     champions_dict["0frameStep"] = frame_step
                     champions_dict["0seg,f_step,f_stop"] = [
                         second_inicial, frame_step, frame_stop
@@ -118,26 +119,24 @@ if __name__ == "__main__":
 
     print("hello from python")
     path = str(sys.argv[1])
-    print(path)
     champis = sys.argv[2].split("#")
     champions = [champ for champ in champis if champ != ""]
-    print(champions)
     threshold = float(sys.argv[3])
-    print(threshold)
     second_inicial = int(sys.argv[4])
-    print(second_inicial)
     frame_step = int(sys.argv[5])
-    print(frame_step)
     frame_stop = int(sys.argv[6])
-    print(frame_stop)
     json_path = str(sys.argv[7])
-    print(json_path)
-    # champions = [champ for champ in "#amumu#caitlyn#darius#fizz#morgana".split("#") if champ != ""]
-    # threshold = 0.33
-    # second_inicial = 100
-    # frame_step = 1
-    # frame_stop = 3500   
-    # print("Directory Path:", Path().absolute())  
+    
+# =============================================================================
+#     path = "C:/Users/SERGI/eclipse-workspace/prueba/videoHD.mp4"
+#     champions = [champ for champ in "#amumu#caitlyn#darius#fizz#morgana".split("#") if champ != ""]
+#     threshold = 0.33
+#     second_inicial = 100
+#     frame_step = 1
+#     frame_stop = 3500
+#     json_path = "../prueba/target/json/" 
+# =============================================================================
+    
     print("leyendo video")
     print(champions, path, threshold, second_inicial, frame_step, frame_stop)
     readVideo(champions, path, threshold, second_inicial, frame_step, frame_stop, json_path)

@@ -1,6 +1,4 @@
-@if not %ERRORLEVEL% == 0 (goto error_path)
-@echo Activando entorno virtual en conda
-call activate 
+
 @if not %ERRORLEVEL% == 0 (goto error_conda)
 
 @set path=%1

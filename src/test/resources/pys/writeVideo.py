@@ -98,8 +98,8 @@ if __name__ == "__main__":
     videoPath = str(sys.argv[2])
     jsonName = str(sys.argv[3])
 # =============================================================================
-#     rootPath = 
-#     videoPath = 
+#     rootPath = "C:/Users/SERGI/eclipse-workspace/prueba/"
+#     videoPath = "C:/Users/SERGI/eclipse-workspace/prueba/videoHD.mp4"
 #     jsonName = "threshold-0.33_Si-100"
 # =============================================================================
     print("leyendo video")

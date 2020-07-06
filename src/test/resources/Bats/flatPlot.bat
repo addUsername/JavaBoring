@@ -1,6 +1,3 @@
-@if not %ERRORLEVEL% == 0 (goto error_path)
-@echo Activando entorno virtual en conda
-call activate 
 @if not %ERRORLEVEL% == 0 (goto error_conda)
 
 @set path=%1
@@ -13,10 +10,6 @@ call activate
 
 
 @if not %ERRORLEVEL% == 0 (goto error_python)
-exit
-
-:error_path
-@echo ERROR trying to add Anaconda3 towinPATH, do it by hand pls
 exit
 
 :error_conda
