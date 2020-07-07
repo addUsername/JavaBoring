@@ -140,6 +140,24 @@ public class Model {
 					content = "";
 					break;
 					
+				case "join.bat":
+					line = 0;
+					sc = new Scanner(file);
+					add = "\n Call ";
+					add += paths.getPathPath()+"python.exe "+ paths.getResourcesPath() + "pys\\join.py %jsonpath%";
+					add += "\n exit";
+					while(sc.hasNextLine()) {
+						content += sc.nextLine()+"\n";
+						if (line == 12) content += add+"\n";
+						line++;
+					}
+					
+					fw = new FileWriter(file);
+					fw.write(content);
+					fw.close();
+					content = "";
+					break;
+					
 				default:
 					break;
 				}
