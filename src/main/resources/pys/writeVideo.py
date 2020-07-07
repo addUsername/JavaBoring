@@ -8,10 +8,9 @@ Created on Sun Jul  5 13:52:17 2020
 # -*- coding: utf-8 -*-
 #importar solo metodos necesarios
 import cv2
-import json
 import sys
-from pathlib import Path
 from json import load
+import time
 
 class Writting:
 
@@ -39,6 +38,9 @@ class Writting:
                   (0, 255, 255), (255, 255, 0)]
 
         fram_pos = 0
+        frame_stop = self.champions_dict["0seg,f_step,f_stop"][2] * 30
+        progress = int (frame_stop / 10)
+        
         ult_valid_position = [tuple((0, 1)) for i in range(5)]
 
         video_rgb = cv2.VideoCapture(self.video_path)
@@ -56,6 +58,7 @@ class Writting:
         frame = frame[h1:h, w1:w]
         print("escribiendo video")
 
+        print(self.output_path + self.title+'.avi')
         out = cv2.VideoWriter(self.output_path + self.title+'.avi',
                               cv2.VideoWriter_fourcc(*'DIVX'),
                               30,
@@ -65,7 +68,9 @@ class Writting:
         while(video_rgb.isOpened()):
 
             ret, frame = video_rgb.read()
-            if ((ret) and (fram_pos < self.champions_dict["0seg,f_step,f_stop"][2])):
+            if ((ret) and (fram_pos < frame_stop)):
+                if(fram_pos % progress == 0):
+                    print(str((fram_pos/progress)*10),"% procesado", flush=True)
                 frame = frame[h1:h, w1:w]
                 if(fram_pos % self.champions_dict["0seg,f_step,f_stop"][1] == 0):
                     i = 0
@@ -84,6 +89,7 @@ class Writting:
                         cv2.circle(frame,tuple((ult_valid_position[i])), 11, colors[i], 1)
                         i += 1
                 fram_pos += 1
+                
                 out.write(frame)
             else:
                 break
@@ -94,15 +100,20 @@ class Writting:
 if __name__ == "__main__":
 
     print("hello from python")
+    
     rootPath = str(sys.argv[1])
     videoPath = str(sys.argv[2])
     jsonName = str(sys.argv[3])
+    
 # =============================================================================
+#     start = time.time()
 #     rootPath = "C:/Users/SERGI/eclipse-workspace/prueba/"
 #     videoPath = "C:/Users/SERGI/eclipse-workspace/prueba/videoHD.mp4"
-#     jsonName = "threshold-0.33_Si-100"
+#     jsonName = "threshold-0.33_Si-1200.0"
 # =============================================================================
     print("leyendo video")
     writting = Writting(rootPath, videoPath, jsonName)
     writting.writeVideo()
+    end = time.time()
+    print(end - start)
     print("the end")
