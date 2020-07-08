@@ -17,7 +17,7 @@ def getChampions(champions):
     for champi in champions:
         #os.getcwd()[:len(os.getcwd())-13]+"visualization\\resources\\"+champi+".jpg"
         # TODO better path magnament
-        champ = cv2.imread("C:/Users/SERGI/eclipse-workspace/prueba/src/main/resources/img/" + champi + ".jpg")
+        champ = cv2.imread("" + champi + ".jpg")
         dim = resizeChampion(champ.shape)
         row = dim[0]
         col = dim[1]
