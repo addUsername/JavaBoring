@@ -18,8 +18,8 @@ How make it work:
 How to use:
 - On the first run, you should choose option "4. Crear entorno" (this will install some python libraries) 
 and generating some especific .bats for your environment
-- Now you are ready to go, choose "1. Leer video" or "10. Leer video faster" (min x2 faster on 180s reading
-compared to option 1, much more on larger readings, x2ram also) if your hardware is good enough.
+- Now you are ready to go, choose "1. Leer video" or "10. Leer video faster" (min x2 faster on 180s readings
+compared to option 1, much more on larger readings, x2.5 RAM also) if your hardware is good enough.
 
 
 Feel free to contact if some support are requiered.
