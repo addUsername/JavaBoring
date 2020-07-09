@@ -6,7 +6,6 @@ Created on Sun Jul  5 13:52:17 2020
 """
 
 # -*- coding: utf-8 -*-
-#importar solo metodos necesarios
 import cv2
 import sys
 from json import load
@@ -29,9 +28,10 @@ class Writting:
             self.champions_dict = load(file)
 
     def writeVideo(self):
-
+        '''
+            Ok this is not pretty, its too big and complexity n^inf at least
+        '''
         self.readJson()
-        # muy interesante esto!!
         self.champions = [name for name in self.champions_dict.keys() if "0" not in name]
         # red,green,blue,yellow
         colors = [(255, 0, 0), (0, 0, 255), (0, 255, 0),
@@ -107,8 +107,8 @@ if __name__ == "__main__":
     
 # =============================================================================
 #     start = time.time()
-#     rootPath = "C:/Users/SERGI/eclipse-workspace/prueba/"
-#     videoPath = "C:/Users/SERGI/eclipse-workspace/prueba/videoHD.mp4"
+#     rootPath = "/prueba/"
+#     videoPath = "/prueba/videoHD.mp4"
 #     jsonName = "threshold-0.33_Si-1200.0"
 # =============================================================================
     print("leyendo video")
