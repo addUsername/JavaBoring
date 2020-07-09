@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.mycompany.prueba.model;
 
 import java.io.BufferedReader;
@@ -10,12 +7,13 @@ import java.util.concurrent.CountDownLatch;
 
 import com.mycompany.prueba.controller.Controller;
 
-/**<h1>ReadThread</h1>
+/**
+ * <h1>ReadThread</h1>
  * This object aims to generate a partial .json file while 4 (in total) instances are doing the same, then this json will be pasted by {@link }
  * and place it on normal json path.
+ * 
  * @author SERGI
  * @since   2020-07-7
- *
  */
 public class ReadThread extends Thread {
 

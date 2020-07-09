@@ -2,9 +2,11 @@ package com.mycompany.prueba.view;
 
 import java.util.Scanner;
 
+import com.mycompany.prueba.controller.Controller;
+
 /**
  * <h1>View</h1>
- * Handles printf and scanf
+ * Handles printf and scanf, nothing to view here.. but all of this methods could become independent .java files in a little bit more sophisticated view
  * 
  * @author SERGI
  * @version 1.0
@@ -44,8 +46,8 @@ public class View {
 		}
 	}
 	/**
-	   * This method get path, champions and timming info
-	   * from user input
+	   * This method get path, champions and timming info from user input 
+	   * See ./prueba/src/main/resources/names_changed.txt
 	   * @return String[][] 
 	   */
 	public String[][] showMenuRead() {
@@ -56,18 +58,25 @@ public class View {
 		System.out.println("-Introduzca el path del video ");
 		String [] path = {sc.nextLine()};
 		
-		System.out.println("-Introduzca los campeones a seguir separados por comas (,) max=5");		
+		System.out.println("-Introduzca los campeones a seguir separados por comas ( , ) max=5\nEx: Amumu,Caitlyn,Darius,Fizz,Morgana");
+		System.out.println("los ( ' ) presentes en algunos nombres son ignorados: Cho'gath -> Chogath \n");
+		System.out.println("Nombre real -> identificador");
+		
+		//Esta lista se saca tal cual de un .txt que genera el web_scrap.py
+		System.out.println("Aurelion Sol -> Aurelion | Dr. Mundo -> Mundo | Jarvan IV -> Jarvan\n" + 
+				"Lee Sin -> Sin | Maestro Yi -> Maestro | Miss Fortune -> Fortune | Nunu y Willump -> Willump\n" + 
+				"Tahm Kench -> Kench | Twisted Fate -> Twisted | Xin Zhao -> Zhao");
 		String [] champions = sc.nextLine().split(",");
 		
 		System.out.println("-Introduzca los valores de configuracion separados por comas (,)");
-		System.out.println("threshold (recomendado=0.33), segundo inicial, frame step (analizar todos los frames=1), frame stop (=segundos*30fps)");
+		System.out.println("threshold (recomendado=0.33), segundo inicial, frame step (analizar todos los frames=1), segundo stop (Si es una lectura rapida, este valor ha de ser menor que la duracion del video)");
 		String [] timming = sc.nextLine().split(",");
 		
 		String[][] toReturn = {path, champions, timming};
 		return toReturn;
 	}
 	/**
-	   * This method get path, champions and timming info
+	   * This method get path and timming info
 	   * from user input
 	   * @return String[][] 
 	   */	
@@ -83,7 +92,11 @@ public class View {
 		String[][] toReturn = {name};
 		return toReturn;
 	}
-	
+	/**
+	   * This method get video path and json title
+	   * from user input
+	   * @return String[][] 
+	   */	
 	public String[][] showMenuWrite() {
 		Scanner sc = new Scanner(System.in);
 		
@@ -99,18 +112,22 @@ public class View {
 		String[][] toReturn = {videoPath, title};
 		return toReturn;
 	}
-	
+	/**
+	   * This method get condaPath
+	   * from user input
+	   * @return String[][] 
+	   */	
 	public String showMenuEnvironment() {
 		
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("++++++++++\n MENU Entorno\n++++++++++");
-		System.out.println("Introduzca el path de instalacion de conda, \npor defecto: C:\\Users\\USER\\Anaconda");
+		System.out.println("Este proceso eliminara archivos temporales (.bat y .json) y generara nuevos");
+		System.out.println("Introduzca el path de instalacion de conda, \npor defecto: C:\\Users\\USER\\Anaconda3\\");
 		return sc.nextLine();
 	}
 	/** This methods should be rewrite on a single method:
 	   * public void printView (String string)
-	   * @param String
 	   */
 	public void closing() { 	System.out.println("Cerrando.. xao"); }
 	/**
@@ -129,9 +146,9 @@ public class View {
 	   * @see View#closing()
 	   */
 	public void show3dPlot() {	System.out.println("Creado grafico 3D."); }
-	/** Static method from {@link com.mycompany.prueba.controller.Controller#printOutputBat(java.lang.String[])} method.
+	/** Static method called from {@link Controller#printOutputBat(String))} method.
 	   * 
-	   * @param output
+	   * @param output The string comming from python.
 	   */
 	public static void printOutputBat(String output) {
 		//quizas halla que crear una clase estatica

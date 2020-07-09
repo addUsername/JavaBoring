@@ -3,11 +3,10 @@ package com.mycompany.prueba;
 import com.mycompany.prueba.controller.Controller;
 /**
  * <h1>Prueba</h1>
- * The prueba program implements an application that
- * simply handles 3 .py files, these files will generate 
- * the path made by the lol champions that are
- * visible on minimap and export it as .json, 
- * .png and .mp4 files
+ * The main task is generate the path made by the lol champions that are visible on minimap and export it as:
+ * .json, .png and .mp4 files.
+ * <p> * 
+ * python and bat docs are not written yet and maybe never will be.
  * 
  * @author SERGI
  * @version 1.0

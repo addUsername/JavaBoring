@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.Scanner;
 
 import com.mycompany.prueba.controller.Controller;
@@ -17,9 +18,9 @@ import com.mycompany.prueba.controller.Controller;
  * 1 Paths.java (just getters and setters), 2 ProcessBats.java, 3 WriteBats.java and Model.java
  * <p>
  * For scaling up performance..<ul> <li>Same_bat_multiple_times.java
- * (multithreading on same task, no sync needed)<li> 
+ * (multithreading on same task, no sync needed)</li> 
  * <li>Multiple_bat_at_once.java 
- * (synchronized threads making the whole task of reading and writting video)<li> <ul>
+ * (synchronized threads making the whole task of reading and writing video)</li> </ul>
  * 
  * @author SERGI
  * @version 1.0
@@ -39,13 +40,13 @@ public class Model {
 	   * This method writes custom lines on bats files by calling {@link Model#writePyPath()} and
 	   * {@link Model#writeConda()} methods
 	   * from user input
-	   * @param String Represents anaconda installation path
+	   * @param pathPath Represents anaconda installation path
 	   */
 	public void prepareBats(String pathPath) {
 		
 		paths.setPathPath(pathPath);
 		//adds conda path
-		writeConda();
+		//writeConda();
 		//adds paths to call python
 		writePyPath();	
 		
@@ -90,11 +91,11 @@ public class Model {
 					line = 0;
 					sc = new Scanner(file);
 					add = "\n Call ";
-					add += paths.getPathPath()+"python.exe " + paths.getResourcesPath() + "pys\\flatPlot.py %path% %champions% %title%";
+					add += paths.getPathPath()+"python.exe " + paths.getResourcesPath() + "pys\\flatPlot.py %root_path% %title%";
 					add += "\n exit";
 					while(sc.hasNextLine()) {
 						content += sc.nextLine()+"\n";
-						if (line == 12) content += add+"\n";
+						if (line == 7) content += add+"\n";
 						line++;
 					}
 					
@@ -108,7 +109,7 @@ public class Model {
 					line = 0;
 					sc = new Scanner(file);
 					add = "\n Call ";
-					add += paths.getPathPath()+"python.exe "+ paths.getResourcesPath() + "pys\\3dPlot.py %path% %champions% %title%";
+					add += paths.getPathPath()+"python.exe "+ paths.getResourcesPath() + "pys\\3dPlot.py %root_path% %title%";
 					add += "\n exit";
 					while(sc.hasNextLine()) {
 						content += sc.nextLine()+"\n";
@@ -169,6 +170,8 @@ public class Model {
 	}
 	/**
 	   *This method write conda activate [env] function on each .bat
+	   *@deprecated There is no more need to add conda to the PATH
+	   *
 	   */	
 	public void writeConda() {		
 		
@@ -210,6 +213,7 @@ public class Model {
 	   *  which create a conda environment from ..\resources\condaEnv\conda-env.txt 
 	   * A better way to implement this code could be calling the comun processBuilder(this.resourcesPath, "create.bat" + params) method
 	   */
+
 	public void createCondaEnvironment() {
 				
 		
@@ -237,6 +241,8 @@ public class Model {
 	   * <p>
 	   * A better way to implement this code could be make multiples methods for params-logic and then
 	   * all of them calling  a single processBuilder(String params, String nameFile), yep
+	   * 
+	   * @params parameters Paths, names, timing video..
 	   */	
 	public void read(String [][] parameters) {
 		
@@ -266,7 +272,7 @@ public class Model {
 	}
 	/**
  	   * @see Model#read(String[][])
-	   * @param parameters
+	   * @param parameter json name
 	   */
 	public void flatPlot(String [][] parameters) {
 				
@@ -290,7 +296,7 @@ public class Model {
 	}
 	/**
 	   * @see Model#read(String[][])
-	   * @param parameters
+	   * @param parameters json name
 	   */
 	public void threedPlot(String [][] parameters) {
 				
@@ -314,7 +320,7 @@ public class Model {
 	}
 	/**
 	   * @see Model#read(String[][])
-	   * @param parameters
+	   * @param parameters Video path and json name
 	   */
 	public void writeVideo(String [][] parameters) {
 		
@@ -336,6 +342,37 @@ public class Model {
 			System.out.println("exception");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+	}
+	/**
+	   * Delete .json and .bat temp files, and also put a new copy on /Bats, should rewrite it in just one for(int i=0;..
+	   */	
+	public void delTempFiles() {
+		
+		
+		File [] bats = new File(paths.getResourcesPath()+"Bats\\").listFiles();
+		File [] newbats = new File(paths.getResourcesPath()+"cleanBats\\").listFiles();
+		File [] jsonTemps = new File(paths.getJsonPath_temp()).listFiles();
+		
+		for(File bat: bats) {
+			
+			bat.delete();
+		}
+		
+		for (File jsonTemp: jsonTemps) {
+			
+			jsonTemp.delete();
+		}
+		
+		for (File newBat: newbats) {
+			
+			try {
+				Files.copy(newBat.toPath(), new File(paths.getResourcesPath()+"\\Bats\\"+newBat.getName()).toPath());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}

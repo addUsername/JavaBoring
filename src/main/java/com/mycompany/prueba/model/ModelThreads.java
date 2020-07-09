@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.mycompany.prueba.model;
 
 import java.io.BufferedReader;
@@ -15,7 +12,8 @@ import com.mycompany.prueba.controller.Controller;
  * This class handles fast reading feature by creating 4 {@link com.mycompany.prueba.model.ReadThread} Objects.
  * <p>
  * <h4>For scaling up performance..</h4>
- * <ul> <li>Same_bat_multiple_times.java: (DONE)<li><li>Multiple_bat_at_once.java: synchronized threads making the whole task of reading and writting video, need streams<li> <ul>
+ * <ul><li>Same_bat_multiple_times.java: (DONE)</li><li>Multiple_bat_at_once.java: synchronized threads making the whole task of reading and writting video, need streams</li></ul>
+ * 
  * @author SERGI
  * @version 1.5
  * @since   2020-07-7
@@ -31,9 +29,9 @@ public class ModelThreads extends Model {
 	 * By now all others methods from {@link Model} super Class remain  the same.. we are not gonna call them anywhere, bat and runtime logic not change
 	 * <p>
 	 * <h4>Fun part</h4>
-	 * This method instantiates 4 {@link ReadThread} Objects as Threads, then {@link Thread#start()} them and finally {@link Thread#join()}
-	 * as usual but there are some tricky differences like running the same instance {@link Runtime} or reading the same file concurrently and
-	 * nothing bad happens. Good job java.. pretty cool. Also 0 modifications done on read.py, it works on both models, I'd take the last one(H).
+	 * This method instantiates 4 {@link ReadThread} Objects as Threads, then {@link Thread#start()} them and finally {@link Thread#join()},
+	 * as usual, but there are some tricky differences like running the same instance {@link Runtime} or reading the same file concurrently and
+	 * nothing bad happens. Good job java!.. pretty cool. Also 0 modifications done on read.py, it works on both models from the beginning, I'd take the last one(H).
 	 */
 	@Override
 	public void read(String [][] parameters) {
@@ -78,6 +76,7 @@ public class ModelThreads extends Model {
 		}
 		
 		try {
+			//prop not needed
 			latch.await();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
